@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "690878554467",
+    "firebase_url": "https://proyectojandula.firebaseio.com",
+    "project_id": "proyectojandula",
+    "storage_bucket": "proyectojandula.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:690878554467:android:c8cd0bdd51fa44dde87356",
+        "android_client_info": {
+          "package_name": "com.example.proyecto_jandula"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "690878554467-cd8gl9ksgjerh14i82l6beij056jfm9t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyecto_jandula",
+            "certificate_hash": "0c289b9846122f9eaf3882b8425722d1d9c00ca9"
+          }
+        },
+        {
+          "client_id": "690878554467-njc7f1s7survm7qoqe5qmhtbcvro74oj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjj-t-CnhRSnEoq8fugQDRXpub8FkgfL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "690878554467-njc7f1s7survm7qoqe5qmhtbcvro74oj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
