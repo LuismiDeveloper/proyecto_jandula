@@ -1,6 +1,6 @@
 # proyecto_jandula
 
-Aplicación para simular la función de Séneca en el centro
+Aplicación desarrollada como proyecto final para el centro IES Jándula (Andújar, Jaén).
 
 ## Getting Started
 
