@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/jandula_logo.jpg"), height: 250,),
+              Image(image: AssetImage("assets/jandula_logo.png"), height: 250,),
               SizedBox(height: 50),
               _signInButton(),
             ],

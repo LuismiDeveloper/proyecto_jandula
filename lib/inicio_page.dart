@@ -43,8 +43,8 @@ Widget menuInferior(){
       ),
 
       BottomNavigationBarItem(
-        icon: Icon(Icons.chat),
-        title: Text('Comunicación'),
+        icon: Icon(Icons.menu),
+        title: Text('Menú'),
       ),
     ],
   );
@@ -159,7 +159,7 @@ Widget imagenJandula(){
       padding: EdgeInsets.all(20),
       child: Column(
         children: <Widget>[
-          Image(image: AssetImage("assets/jandula_logo2.jpg"), height: 250),
+          Image(image: AssetImage("assets/jandula_logo.png"), height: 200),
         ],
       )
   );
