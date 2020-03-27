@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_jandula/inicio_page.dart';
-import 'package:proyecto_jandula/main.dart';
 import 'package:proyecto_jandula/sign_in.dart';
 
 class LoginPage extends StatefulWidget {

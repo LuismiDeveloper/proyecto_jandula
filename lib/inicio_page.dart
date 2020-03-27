@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:proyecto_jandula/sign_in.dart';
+import 'package:proyecto_jandula/profesor.dart';
 
 class PaginaInicio extends StatelessWidget {
   @override
@@ -16,15 +16,26 @@ class PaginaInicio extends StatelessWidget {
             ),
           ),
 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+
+            children: <Widget>[
+              Icon(Icons.person),
+              //Text(googleSignIn.currentUser.displayName),
+            ],
+          ),
+
           Container(
             child: Center(
-              child: tablaBotones(),
+              child: tablaBotones(context),
             ),
           )
         ],
       ),
+
     );
   }
+
 }
 
 
@@ -51,12 +62,12 @@ Widget menuInferior(){
 }
 
 // Tabla con los diferentes botones
-Widget tablaBotones(){
+Widget tablaBotones(BuildContext context){
   return Table(
     children: [
       TableRow(children: [
         buttonAsistencia(),
-        buttonProfesor(),
+        buttonProfesor(context),
         buttonConvivencia(),
       ]),
       TableRow(children: [
@@ -91,7 +102,7 @@ Widget buttonAsistencia(){
 
 
 // Botón para saber el aula donde se encuentra el profesorado
-Widget buttonProfesor(){
+Widget buttonProfesor(BuildContext context){
   return Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
@@ -102,7 +113,12 @@ Widget buttonProfesor(){
           color: Colors.lightBlue,
           iconSize: 50,
           tooltip: 'Comprueba donde se encuentra actualmente un profesor',
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PaginaProfesor()),
+            );
+          },
         ),
       ),
       Text('Búsq. profesor')
