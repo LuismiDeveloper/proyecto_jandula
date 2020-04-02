@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:proyecto_jandula/profesor.dart';
+import 'package:proyecto_jandula/listadoProfesor_page.dart';
 import 'package:proyecto_jandula/sign_in.dart';
 
 class PaginaInicio extends StatelessWidget {
@@ -16,13 +16,35 @@ class PaginaInicio extends StatelessWidget {
               child: imagenJandula(),
             ),
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-
             children: <Widget>[
-              Icon(Icons.person),
-              //Text(googleSignIn.currentUser.displayName),
+              Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.lightBlue, width: 5)
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.person, size: 25, color: Colors.lightBlue,),
+                    Text(googleSignIn.currentUser.displayName,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10.0,
+                                color: Colors.blue,
+                                offset: Offset(5.0, 5.0),
+                              ),
+                            ],
+
+                          ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
 
@@ -117,7 +139,7 @@ Widget buttonProfesor(BuildContext context){
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => PaginaProfesor()),
+              MaterialPageRoute(builder: (context) => ListadoProfesorPage()),
             );
           },
         ),
@@ -173,10 +195,10 @@ Widget buttonNada(){
 // Logo de IES Jándula
 Widget imagenJandula(){
   return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(0),
       child: Column(
         children: <Widget>[
-          Image(image: AssetImage("assets/jandula_logo.png"), height: 200),
+          Image(image: AssetImage("assets/jandula_logo2.png"), height: 150),
         ],
       )
   );

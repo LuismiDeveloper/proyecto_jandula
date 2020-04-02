@@ -4,21 +4,30 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:proyecto_jandula/listadoDatos_page.dart';
 
-class PaginaProfesor extends StatefulWidget {
+
+// Almacena los datos del JSON en una lista
+List listaDatos = List();
+
+// Esta lista servirá para almacenar los datos del profesor seleccionado
+List listaDatosSeleccionado = List();
+
+// Almacena los nombres de los profesores que dan clase en el día actual
+List listaProfesores = List();
+
+// Nos servirá para recoger el nombre seleccionado en el ListView
+String seleccionado;
+
+class ListadoProfesorPage extends StatefulWidget {
   @override
-  _PaginaProfesorState createState() => _PaginaProfesorState();
+  _ListadoProfesorPageState createState() => _ListadoProfesorPageState();
+
 }
 
-void main() => runApp(PaginaProfesor());
+void main() => runApp(ListadoProfesorPage());
 
-class _PaginaProfesorState extends State<PaginaProfesor> {
-  // Almacenan los datos de los JSON en listas
-  List listaDatos = List();
-  List listaProfesores = List();
-
-  // Almacena los profesores que dan clase en el día actual
-  List profesores = List();
+class _ListadoProfesorPageState extends State<ListadoProfesorPage> {
 
   // HashSet servirá para eliminar los valores duplicados
   HashSet hs = new HashSet();
@@ -30,6 +39,8 @@ class _PaginaProfesorState extends State<PaginaProfesor> {
     this.obtenerDatos();
 
   }
+
+
 
   // Convertir respuesta HTTP a Datos
   Future<ListaDatos> obtenerDatos() async {
@@ -57,7 +68,7 @@ class _PaginaProfesorState extends State<PaginaProfesor> {
 
       // Ordenamos la lista
       listaProfesores.sort();
-
+      
     });
   }
 
@@ -69,6 +80,7 @@ class _PaginaProfesorState extends State<PaginaProfesor> {
       appBar: AppBar(
         title: Text("Lista de profesores"),
       ),
+
       body: ListView.builder(
           padding: const EdgeInsets.all(10),
           itemCount: listaProfesores == null ? 0 : listaProfesores.length,
@@ -78,6 +90,16 @@ class _PaginaProfesorState extends State<PaginaProfesor> {
                   disabledTextColor: Colors.black,
                   child: Text(listaProfesores[index]),
                   onPressed: (){
+
+                    seleccionado = listaProfesores[index];
+                    listaDatosSeleccionado.clear();
+                    listaDatosSeleccionado.addAll(listaDatos);
+                    listaDatosSeleccionado.removeWhere((item) => item['Profesor'] != seleccionado);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ListadoDatosPage()),
+                    );
 
                   },
             );
@@ -143,34 +165,6 @@ class ListaDatos {
   }
 }
 
-// Clase para modelar los datos recibidos del JSON
-// Sheet: profesores
-class Profesor {
-  final String nombre;
-
-  Profesor({this.nombre});
-
-  factory Profesor.fromJson(Map<String, dynamic> json) {
-    return Profesor(
-      nombre: json['Nombre']
-    );
-  }
-}
-
-// Clase para almacenar objetos en una lista de tipo Profesor
-// Sheet: profesores
-class ListaProfesores {
-  final List<Profesor> profesores;
-
-  ListaProfesores({this.profesores});
-
-  factory ListaProfesores.fromJson(List<dynamic> json){
-    List<Profesor> profesores = new List<Profesor>();
-    profesores = json.map((i) => Profesor.fromJson(i)).toList();
-
-    return new ListaProfesores(profesores: profesores);
-  }
-}
 
 // Método para obtener el dia de la semana
 // Le pasamos por parámetro la fecha actual
