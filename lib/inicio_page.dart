@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_jandula/profesor.dart';
+import 'package:proyecto_jandula/sign_in.dart';
 
 class PaginaInicio extends StatelessWidget {
   @override
