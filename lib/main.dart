@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:proyecto_jandula/login_page.dart';
 
 
@@ -11,6 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'IES Jándula',
+      debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

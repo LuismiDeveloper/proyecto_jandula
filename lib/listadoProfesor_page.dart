@@ -90,7 +90,7 @@ class _ListadoProfesorPageState extends State<ListadoProfesorPage> {
                   disabledTextColor: Colors.black,
                   child: Text(listaProfesores[index]),
                   onPressed: (){
-
+ 
                     seleccionado = listaProfesores[index];
                     listaDatosSeleccionado.clear();
                     listaDatosSeleccionado.addAll(listaDatos);
@@ -104,6 +104,7 @@ class _ListadoProfesorPageState extends State<ListadoProfesorPage> {
                   },
             );
           }),
+      
     );
 
 
@@ -111,7 +112,7 @@ class _ListadoProfesorPageState extends State<ListadoProfesorPage> {
     return new MaterialApp(
       home: Scaffold(
           bottomNavigationBar: menuInferior(),
-          body: Center(
+          body: ListView.builder(
             child: FutureBuilder<ListaDatos>(
               future: futureDatos,
               builder: (context, snapshot) {
