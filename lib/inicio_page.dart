@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:proyecto_jandula/listadoCursos_page.dart';
 import 'package:proyecto_jandula/listadoProfesor_page.dart';
+import 'package:proyecto_jandula/login_page.dart';
 import 'package:proyecto_jandula/sign_in.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
@@ -147,9 +149,9 @@ Widget tablaBotones(BuildContext context){
         buttonConvivencia(),
       ]),
       TableRow(children: [
+        buttonCursos(context),
         buttonNada(),
-        buttonNada(),
-        buttonNada(),
+        buttonSalir(context),
       ])
     ],
   );
@@ -224,6 +226,55 @@ Widget buttonConvivencia(){
 }
 
 
+Widget buttonCursos(BuildContext context){
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.all(10),
+        child: IconButton(
+          icon: Icon(Icons.room),
+          color: Colors.lightBlue,
+          iconSize: 50,
+          tooltip: 'Localiza un curso',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ListadoCursosPage()),
+            );
+          },
+        ),
+      ),
+      Text('Loc. Cursos')
+    ],
+  );
+}
+
+Widget buttonSalir(BuildContext context){
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+      Padding(
+        padding: EdgeInsets.all(10),
+        child: IconButton(
+          icon: Icon(Icons.exit_to_app),
+          color: Colors.lightBlue,
+          iconSize: 50,
+          tooltip: 'Cerrar sesión y salir',
+          onPressed: () {
+            cerrarSesionGoogle();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginPage()),
+            );
+          },
+        ),
+      ),
+      Text('Salir'),
+    ],
+  );
+}
+
 // Botones sin funcionalidad para rellenar la tabla
 Widget buttonNada(){
   return Column(
@@ -236,13 +287,14 @@ Widget buttonNada(){
           color: Colors.lightBlue,
           iconSize: 50,
           tooltip: 'Nada',
-          onPressed: () { cerrarSesionGoogle(); },
+          onPressed: () {  },
         ),
       ),
       Text('En proceso')
     ],
   );
 }
+
 
 
 // Logo de IES Jándula

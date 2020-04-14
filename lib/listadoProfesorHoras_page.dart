@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:proyecto_jandula/listadoProfesor_page.dart';
 
 
-class ListadoDatosPage extends StatefulWidget {
+class ListadoProfesorHorasPage extends StatefulWidget {
   @override
-  _ListadoDatosPageState createState() => _ListadoDatosPageState();
+  _ListadoProfesorHorasPageState createState() => _ListadoProfesorHorasPageState();
 }
 
-void main() => runApp(ListadoDatosPage());
+void main() => runApp(ListadoProfesorHorasPage());
 
-class _ListadoDatosPageState extends State<ListadoDatosPage> {
+class _ListadoProfesorHorasPageState extends State<ListadoProfesorHorasPage> {
 
 
   @override

@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:proyecto_jandula/listadoDatos_page.dart';
+import 'package:proyecto_jandula/listadoProfesorHoras_page.dart';
 
 
 // Almacena los datos del JSON en una lista
@@ -98,7 +98,7 @@ class _ListadoProfesorPageState extends State<ListadoProfesorPage> {
 
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ListadoDatosPage()),
+                      MaterialPageRoute(builder: (context) => ListadoProfesorHorasPage()),
                     );
 
                   },
