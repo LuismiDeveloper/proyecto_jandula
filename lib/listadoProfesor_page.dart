@@ -45,7 +45,7 @@ class _ListadoProfesorPageState extends State<ListadoProfesorPage> {
   // Convertir respuesta HTTP a Datos
   Future<ListaDatos> obtenerDatos() async {
     final String sheetID = '1ibBxNJQKJPbcrK789nRf5sB-y6QMgppNm2NT4Z_viso';
-    final String hoja = 'busqueda';
+    final String hoja = 'profesores';
     // Obtengo el JSON a través de la ejecución del Google App Script
     final response = await http.get(
         'https://script.google.com/macros/s/AKfycbyB7-qCXuP54-9IsOgV62OuIFluzeZ3h_pj54CaQrUAwKgeZtOH/exec?spreadsheetId=$sheetID&sheet=$hoja');

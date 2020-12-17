@@ -4,31 +4,31 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'listadoCursosHoras_page.dart';
+import 'package:proyecto_jandula/listadoAulaMayoresAlumnos_page.dart';
 
 
 
 // Almacena los datos del JSON en una lista
 List listaDatos = List();
 
-// Esta lista servirá para almacenar los datos del curso seleccionado
+// Esta lista servirá para almacenar los datos del profesor seleccionado
 List listaDatosSeleccionado = List();
 
-// Almacena solamente los cursos
+// Almacena los nombres de los profesores que dan clase en el día actual
 List listaCursos = List();
 
-// Nos servirá para recoger el curso seleccionado en el ListView
+// Nos servirá para recoger el nombre seleccionado en el ListView
 String seleccionado;
 
-class ListadoCursosPage extends StatefulWidget {
+class ListadoAulaMayoresCursosPage extends StatefulWidget {
   @override
-  _ListadoCursosPageState createState() => _ListadoCursosPageState();
+  _ListadoAulaMayoresCursosPageState createState() => _ListadoAulaMayoresCursosPageState();
 
 }
 
-void main() => runApp(ListadoCursosPage());
+void main() => runApp(ListadoAulaMayoresCursosPage());
 
-class _ListadoCursosPageState extends State<ListadoCursosPage> {
+class _ListadoAulaMayoresCursosPageState extends State<ListadoAulaMayoresCursosPage> {
 
   // HashSet servirá para eliminar los valores duplicados
   HashSet hs = new HashSet();
@@ -42,11 +42,10 @@ class _ListadoCursosPageState extends State<ListadoCursosPage> {
   }
 
 
-
-  // Metodo para obtener los datos y pasarlos a lista
+  // Convertir respuesta HTTP a Datos
   Future<ListaDatos> obtenerDatos() async {
     final String sheetID = '1ibBxNJQKJPbcrK789nRf5sB-y6QMgppNm2NT4Z_viso';
-    final String hoja = 'cursos';
+    final String hoja = 'convivencia';
     // Obtengo el JSON a través de la ejecución del Google App Script
     final response = await http.get(
         'https://script.google.com/macros/s/AKfycbyB7-qCXuP54-9IsOgV62OuIFluzeZ3h_pj54CaQrUAwKgeZtOH/exec?spreadsheetId=$sheetID&sheet=$hoja');
@@ -54,10 +53,13 @@ class _ListadoCursosPageState extends State<ListadoCursosPage> {
     setState(() {
       listaDatos = json.decode(response.body);
 
-      // Elimino los datos que no pertenezcan al día de hoy
-      listaDatos.removeWhere((item) => item['Dia'] != getDiaSemana(DateTime.now()));
+      // Elimino los que no sean del tipo expulsados
+      listaDatos.removeWhere((item) => item['Tipo'] != 'Aula Mayores');
 
-      // Paso solo los cursos a la listaCursos
+      // Elimino los datos que no estén dentro del rango de fechas
+      listaDatos.removeWhere((item) => isDentro(item['Fecha Inicio'], item['Fecha Fin']) == false);
+
+      // Paso los cursos a la listaProfesores
       for(int i = 0; i < listaDatos.length; i++){
         listaCursos.add(listaDatos[i]['Curso']);
       }
@@ -79,7 +81,7 @@ class _ListadoCursosPageState extends State<ListadoCursosPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lista de cursos"),
+        title: Text("Cursos con alum. en Aula de Mayores"),
       ),
 
       body: ListView.builder(
@@ -99,13 +101,12 @@ class _ListadoCursosPageState extends State<ListadoCursosPage> {
 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ListadoCursosHorasPage()),
+                  MaterialPageRoute(builder: (context) => ListadoAulaMayoresAlumnosPage()),
                 );
 
               },
             );
           }),
-
     );
 
 
@@ -134,25 +135,28 @@ class _ListadoCursosPageState extends State<ListadoCursosPage> {
 }
 
 // Clase para modelar los datos recibidos del JSON
-// Sheet: cursos
+// Sheet: convivencia
 class Datos {
+  final String alumno;
   final String curso;
-  final String hora;
-  final String aula;
+  final String f_inicio;
+  final String f_fin;
+  final String tipo;
 
-
-  Datos({this.curso, this.hora, this.aula});
+  Datos({this.alumno, this.curso, this.f_inicio, this.f_fin, this.tipo});
 
   factory Datos.fromJson(Map<String, dynamic> json) {
     return Datos(
+        alumno: json['Alumno'],
         curso: json['Curso'],
-        hora: json['Hora'],
-        aula: json['Aula']);
+        f_inicio: json['Fecha Inicio'],
+        f_fin: json['Fecha Fin'],
+        tipo: json['Tipo']);
   }
 }
 
 // Clase para almacenar objetos en una lista de tipo Datos
-// Sheet: cursos
+// Sheet: convivencia
 class ListaDatos {
   final List<Datos> datos;
 
@@ -166,37 +170,27 @@ class ListaDatos {
   }
 }
 
-// Método para obtener el dia de la semana
-// Le pasamos por parámetro la fecha actual
-String getDiaSemana(DateTime fechaAct){
-  String diaSemana;
+// Método para saber si la fecha actual está dentro del rango de las fechas del sheet
+bool isDentro(String f_inicio, String f_fin){
 
-  switch(fechaAct.weekday){
-    case 1:
-      diaSemana = 'lunes';
-      break;
+  bool dentro;
 
-    case 2:
-      diaSemana = 'martes';
-      break;
+  // Conversión de las fechas a DateTime
+  // Divimos la fecha en 3 partes, es decir, en dia, mes y año
+  List<String> f_inicioValues = f_inicio.split('/');
+  List<String> f_finValues = f_fin.split('/');
 
-    case 3:
-      diaSemana = 'miercoles';
-      break;
+  // Construimos el DateTime pasandole año, mes y día en ese orden
+  DateTime dateInicio = DateTime.utc(int.parse(f_inicioValues[2]), int.parse(f_inicioValues[1]), int.parse(f_inicioValues[0]));
+  DateTime dateFin = DateTime.utc(int.parse(f_finValues[2]), int.parse(f_finValues[1]), int.parse(f_finValues[0]));
 
-    case 4:
-      diaSemana = 'jueves';
-      break;
 
-    case 5:
-      diaSemana = 'viernes';
-      break;
-
-    default:
-      diaSemana = 'no lectivo';
-      break;
+  if((dateInicio.isBefore(DateTime.now()) && dateFin.isAfter(DateTime.now())) || (dateInicio == DateTime.now()) || (dateFin == DateTime.now())){
+    dentro = true;
+  } else {
+    dentro = false;
   }
 
-  return diaSemana;
-}
+  return dentro;
 
+}

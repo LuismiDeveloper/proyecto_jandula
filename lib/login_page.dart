@@ -1,3 +1,4 @@
+import 'package:animator/animator.dart';
 import 'package:flutter/material.dart';
 import 'package:proyecto_jandula/inicio_page.dart';
 import 'package:proyecto_jandula/sign_in.dart';
@@ -40,13 +41,30 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: Colors.lightBlueAccent,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image(image: AssetImage("assets/jandula_logo.png"), height: 250,),
+              Animator<double>(
+                tween: Tween<double>(begin: 0, end: 300),
+                repeats: 1,
+                duration: Duration(seconds: 2),
+                builder: (anim1) => Animator<double>(
+                  tween: Tween<double>(begin: -1, end: 1),
+                  cycles: 4,
+                  builder: (anim2) => Center(
+
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 1),
+                        height: anim1.value,
+                        width: anim1.value,
+                        child: Image(image: AssetImage("assets/jandula_logoBlanco.png"), height: 170, color: Colors.white,),
+                      ),
+                    ),
+                  ),
+                ),
               SizedBox(height: 50),
               _signInButton(),
             ],
@@ -59,13 +77,15 @@ class _LoginPageState extends State<LoginPage> {
   // Diseño y función del botón de inicio de sesión
   Widget _signInButton() {
     return OutlineButton(
-      splashColor: Colors.grey,
+
+      color: Colors.white,
       onPressed: (){
 
         iniciarConGoogle().whenComplete((){
 
           obtenerUsuarios().whenComplete((){
             print(listaUsuarios);
+
             // Borro de la lista todos los emails que no sean el escogido por el usuario
             listaUsuarios.removeWhere((item) => item['Email'] != googleSignIn.currentUser.email);
             print('Cuenta: '+googleSignIn.currentUser.email);
@@ -109,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
+      borderSide: BorderSide(color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(
@@ -123,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Iniciar sesión',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.grey,
+                  color: Colors.white,
                 ),
               ),
             )
@@ -164,3 +184,4 @@ class ListaUsuarios {
     return new ListaUsuarios(usuarios: usuarios);
   }
 }
+
